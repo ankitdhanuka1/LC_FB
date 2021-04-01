@@ -1,0 +1,51 @@
+/* The count-and-say sequence is a sequence of digit strings defined by the recursive formula:
+
+countAndSay(1) = "1"
+countAndSay(n) is the way you would "say" the digit string from countAndSay(n-1), which is then converted into a different digit string.
+To determine how you "say" a digit string, split it into the minimal number of groups so that each group is a contiguous section all of the same character. Then for each group, say the number of characters, then say the character. To convert the saying into a digit string, replace the counts with a number and concatenate every saying.
+
+For example, the saying and conversion for digit string "3322251" --> "23321511":
+
+Given a positive integer n, return the nth term of the count-and-say sequence. */
+
+/* Time Complexity o(2^n) */
+/* Space Complexity o(2^n-1) */
+
+class Solution {
+public:
+    string countAndSay(int n) {
+        string ans = "1";
+        for (int i = 2; i <= n; i++) {
+            solve(ans);
+        }
+        
+        return ans;
+    }
+    
+    void solve(string &s) {
+        int i = 0;
+        string temp;
+        
+        /* Count the frequency of same numbers */
+        while (i < s.size() - 1) {
+            int cnt = 1;
+            while (s[i] == s[i+1]) {
+                cnt++;
+                i++;
+            }
+            /* Add frequency to the result */
+            temp += cnt + '0';
+            
+            /* Add number to the result */
+            temp += s[i];
+            i++;
+        }
+        
+        if (i == s.size() - 1) {
+            temp += 1 + '0';
+            temp += s[i];
+        }
+             
+        s = temp;
+    }
+};
