@@ -1,0 +1,35 @@
+/* Given an array of positive integers nums and a positive integer target, return the minimal length of a contiguous subarray [numsl, numsl+1, ..., numsr-1, numsr] 
+of which the sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+
+ 
+
+Example 1:
+
+Input: target = 7, nums = [2,3,1,2,4,3]
+Output: 2
+Explanation: The subarray [4,3] has the minimal length under the problem constraint. */
+
+
+int FindSubarray(vector<int> &arr, int target) {
+        int ans = INT_MAX;   // final ans
+        int left = 0;        // left pointer
+        int right = 0;       // right pointer
+        int sum = arr[0];    // sum of subarray
+  
+        while (left < arr.size()) {
+            if (sum >= target) {
+                ans = min(ans, right - left + 1);  //find min of ans, curent window size
+            }
+            
+            if ((right < arr.size() - 1) && (sum < target)) {
+                right++;        // increment window size;
+                sum += arr[right];  //increment sum;
+            } else {
+                sum -= arr[left];  // remove left elment from window
+                left++;            // decrement window size
+            }
+        }
+  
+        return ans == INT_MAX? 0: ans;
+}
+    
