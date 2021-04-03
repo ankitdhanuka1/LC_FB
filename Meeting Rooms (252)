@@ -1,0 +1,35 @@
+Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), determine if a person could attend all meetings.
+Example1
+
+Input: intervals = [(0,30),(5,10),(15,20)]
+Output: false
+Explanation: 
+(0,30), (5,10) and (0,30),(15,20) will conflict
+
+T: o(nlog(n), S: o(1)
+
+static bool compare (Interval i1, Interval i2) {
+        return (i1.start < i2.start);
+}
+
+bool meeting_room(vector<int> & intervals) {
+        if ((intervals.size() == 0) || (intervals.size() == 1)) {
+            return true;
+        }
+
+        /* Sort intevals with starting time */
+        sort(intervals.begin(), intervals.end(), compare);
+        auto itr1 = intervals.begin();
+        auto itr2 = next(itr1, 1);
+
+        for (auto itr = itr2; itr != intervals.end(); itr++) {
+            /* if start of cur interval is less than end of prev interval, then there will be conflict, return false. */
+            if (itr->start < itr1->end) {
+                return false;
+            } 
+
+            itr1 = itr;
+        }
+
+        return true;
+}
