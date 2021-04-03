@@ -1,0 +1,51 @@
+Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
+
+Example
+Example1
+
+Input: intervals = [(0,30),(5,10),(15,20)]
+Output: 2
+Explanation:
+We need two meeting rooms
+room1: (0,30)
+room2: (5,10),(15,20)
+
+T: o(nlog(n)), S: o(n)
+
+
+    static bool compare (Interval l1, Interval l2) {
+        return (l1.start < l2.start);
+    }
+
+    struct compareInt {
+        bool operator() (Interval const &p1, Interval const &p2) {
+            return p1.end > p2.end;
+        }
+    };
+
+    /**
+     * @param intervals: an array of meeting time intervals
+     * @return: the minimum number of conference rooms required
+     */
+    int minMeetingRooms(vector<Interval> &intervals) {
+        // sort intervals with starting time
+        sort(intervals.begin(), intervals.end(), compare);
+
+        // priority queue to add occupied meeting room
+        priority_queue<Interval, vector <Interval>, compareInt> pq;
+
+        pq.push(intervals[0]);
+        for (int i = 1; i < intervals.size(); i++) {
+            //check overlap, if overlap, add interval to pq as another room is required for this meeting
+            if (intervals[i].start < pq.top().end) {
+                pq.push(intervals[i]);
+            } else {
+                // No overlap, so top of pq meeting will get over, so remove it and add current interval in the same meeting room.
+                pq.pop();
+                pq.push(intervals[i]);
+            }
+        }
+
+        // Size of pq is the number of meeting rooms required.
+        return pq.size();
+    }
