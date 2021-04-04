@@ -1,0 +1,34 @@
+Given a string containing uppercase alphabets and integer digits (from 0 to 9), write a function to return the alphabets in the order followed by the sum of digits.
+
+Example
+Example 1:
+
+Input : str = "AC2BEW3"
+Output : "ABCEW5"
+Explanation : 
+Alphabets in the lexicographic order, followed by the sum of digits.
+
+T: o(nlogn), S: o(n)
+
+    string rearrange(string &str) {
+        // Write your code here
+        int sum = 0;
+        int cnt = 0;
+        string res;
+        for (int i = 0; i < str.size(); i++) {
+            if (isdigit(str[i])) {
+                sum += (str[i] - '0');
+                cnt++;
+            } else {
+                res.push_back(str[i]);
+            }
+        }
+
+        sort(res.begin(), res.end());
+
+        if (cnt)
+            res += to_string(sum);
+
+        return res;
+
+    }
