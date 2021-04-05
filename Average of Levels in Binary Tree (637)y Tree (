@@ -1,0 +1,40 @@
+Given the root of a binary tree, return the average value of the nodes on each level in the form of an array. Answers within 10-5 of the actual answer will be accepted.
+
+Input: root = [3,9,20,null,15,7]
+Output: [3.00000,14.50000,11.00000]
+Explanation: The average value of nodes on level 0 is 3, on level 1 is 14.5, and on level 2 is 11.
+Hence return [3, 14.5, 11].
+
+T:o(n), S: o(n)    
+    
+    vector<double> averageOfLevels(TreeNode* root) {
+        queue<TreeNode *> q; // main q to store nodes of each level
+        q.push(root);
+        vector<double> res;
+        
+        while (q.size() != 0) {
+            double sum = 0;
+            int cnt = 0;
+            queue<TreeNode *> tempq; // temp q to add nodes of next level.
+            while (q.size() != 0) {
+                TreeNode *node = q.front();
+                q.pop();
+                sum += node->val;
+                cnt++;
+                if (node->left) {
+                    tempq.push(node->left);
+                }
+                
+                if (node->right) {
+                    tempq.push(node->right);
+                }
+            }
+            
+            q = tempq;  // load next level q to current q
+            double avg = (double)sum / (double)cnt;
+            res.push_back(avg);
+            
+        }
+        
+        return res;
+    }
