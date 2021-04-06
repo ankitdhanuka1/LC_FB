@@ -1,0 +1,60 @@
+Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
+Example 1:
+Given tree s:
+
+     3
+    / \
+   4   5
+  / \
+ 1   2
+Given tree t:
+   4 
+  / \
+ 1   2
+Return true, because t has the same structure and node values with a subtree of s.
+
+T: o(m * n), S: o(n) m is sizeof s, n is size of t
+
+
+    bool isSubtree(TreeNode * s, TreeNode * t) {
+        // Write your code here
+        queue<TreeNode *>  q;
+        q.push(s);
+
+        while (q.size() != 0) {
+            TreeNode *cur = q.front();
+            q.pop();
+            if (cur->val == t->val) {
+                // check recursively if all nodes match from this point or not
+                if (solve(cur, t)) {
+                    return true;
+                }
+            }
+
+            if (cur->left) {
+                q.push(cur->left);
+            }
+
+            if (cur->right) {
+                q.push(cur->right);
+            }
+        }
+
+        return false;
+    }
+
+    bool solve(TreeNode *cur, TreeNode *t) {
+        if ((cur == NULL) && (t == NULL)) {
+            return true;
+        }
+
+        if ((cur == NULL) || (t == NULL)) {
+            return false;
+        }
+
+        if (cur->val != t->val) {
+            return false;
+        }
+
+        return (solve(cur->left, t->left) && solve(cur->right, t->right));
+    }
