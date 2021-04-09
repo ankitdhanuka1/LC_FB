@@ -1,0 +1,35 @@
+Find the sum of all left leaves in a given binary tree.
+
+T: o(n), S: o(n)
+
+    int sum = 0;
+
+    void solve(TreeNode *root, bool flag) {
+        if (root == NULL) {
+            return;
+        }
+
+        solve(root->left, true);
+        solve(root->right, false);
+
+        // Add root value to sum when it is leaf, and flag is true for left leaf
+        if ((!root->left) && (!root->right) && (flag == true)) {
+            sum += root->val;
+        }
+
+        return;
+    }
+public:
+    /**
+     * @param root: t
+     * @return: the sum of all left leaves
+     */
+    int sumOfLeftLeaves(TreeNode * root) {
+        // Write your code here
+        if (root == NULL) {
+            return 0;
+        }
+        solve(root, false);
+
+        return sum;
+    }
