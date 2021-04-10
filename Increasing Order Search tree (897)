@@ -1,0 +1,32 @@
+Given the root of a binary search tree, rearrange the tree in in-order so that the leftmost node in the tree is now the root of the tree, and every node has no left child and only one right child.
+T: o(N), S:o(N), where N is numner of nodes in tree.
+
+void solve(TreeNode *root, vector<int> &arr) {
+        //Inorder traversal
+        if (root == NULL) {
+            return;
+        }
+
+        solve(root->left, arr);
+        //store inorder traversal in an array
+        arr.push_back(root->val);
+        solve(root->right, arr);
+    }
+    
+public:
+    TreeNode* increasingBST(TreeNode* root) {
+        vector<int> arr;
+        solve(root, arr);
+        TreeNode *res = new (TreeNode);
+        res->val = arr[0];
+        TreeNode *temp1 = res;
+        
+        //store inorder nodes only at right child
+        for (int i = 1; i < arr.size(); i++) {
+            TreeNode *temp = new (TreeNode);
+            temp->val = arr[i];
+            temp1->right = temp;
+            temp1 = temp1->right;
+        }
+        return res;
+    }
