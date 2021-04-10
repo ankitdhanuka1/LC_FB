@@ -1,0 +1,41 @@
+Consider all the leaves of a binary tree, from left to right order, the values of those leaves form a leaf value.
+Two binary trees are considered leaf-similar if their leaf value sequence is the same.
+
+Return true if and only if the two given trees with head nodes root1 and root2 are leaf-similar.
+
+T: o(T1 + T2), S:o(T1 + T2), T1, T2 are length of binary trees.
+
+ void solve(TreeNode *root, vector<int> & res) {
+        if (root == NULL) {
+            return;
+        }
+
+        // checking the leaf condition and add to vector
+        if ((root->left == NULL) && (root->right == NULL)) {
+            //cout<<root1->val;
+            res.push_back(root->val);
+        }
+
+    
+        solve(root->left, res);
+        solve(root->right, res);
+        
+    }
+public:
+    /**
+     * @param root1: the first tree
+     * @param root2: the second tree
+     * @return: returns whether the leaf sequence is the same
+     */
+    bool leafSimilar(TreeNode * root1, TreeNode * root2) {
+        // write your code here.
+        vector<int> res1;
+        vector<int> res2;
+        solve(root1, res1);
+        solve(root2, res2);
+        
+        if (res1 == res2) {
+            return true;
+        }
+        return false;
+    }
