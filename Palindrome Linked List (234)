@@ -1,0 +1,94 @@
+Given the head of a singly linked list, return true if it is a palindrome.
+
+T:o(n), S:o(1)
+
+
+oid reverse(ListNode **node) {
+        ListNode *temp = *node;
+        ListNode *prev = NULL;
+
+        while (temp != NULL) {
+            ListNode *next = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = next;
+        }
+
+        *node = prev;
+    }
+
+    bool compare(ListNode *a , ListNode *b) {
+        while ((a != NULL) && (b != NULL)) {
+            //cout << a->val << " "<<b->val<<endl;
+            if (a->val != b->val) {
+                return false;
+            }
+            a = a->next;
+            b = b->next;
+        }
+
+        if ((a != NULL) || (b != NULL)) {
+            return false;
+        } 
+
+        return true;
+    }
+public:
+    /**
+     * @param head: A ListNode.
+     * @return: A boolean.
+     */
+    bool isPalindrome(ListNode * head) {
+        if (!head) {
+            return true;
+        }
+
+        ListNode *temp = head;
+        if (temp->next == NULL) {
+            return true;
+        }
+
+        ListNode *fast = temp;  //to reach end of list
+        ListNode *slow = temp;  // to find middle node of list
+        ListNode *midnode = NULL; // in case of odd number of list, this node will be middle node
+        ListNode *secondhalf = NULL; // starting of other half of list
+        ListNode *prev_slow = NULL; // last element of first half
+        bool res;
+
+        // find the middle point with slow pointer
+        while ((fast != NULL) && (fast->next != NULL)) {
+            fast = fast->next->next;
+            prev_slow = slow;
+            slow = slow->next;
+        }
+
+        // odd number of nodes
+        if (fast != NULL) {
+            midnode = slow;
+            secondhalf = midnode->next;
+        } else {
+            //even number of nodes
+            secondhalf = slow;
+        }
+        
+        // Cut down first half of list  
+        prev_slow->next = NULL;
+        
+        //reverse the second half
+        reverse(&secondhalf);
+        //compare first half and second half
+        res = compare(head, secondhalf);
+        
+        //again combine the original list, so again reverse the list
+        reverse(&secondhalf);
+
+        //combine both halves
+        if (midnode) {
+            prev_slow->next = midnode;
+            midnode->next = secondhalf;
+        } else {
+            prev_slow->next = secondhalf;
+        }
+
+        return res;
+    }
