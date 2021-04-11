@@ -1,0 +1,43 @@
+Given a roman numeral, convert it to an integer.
+
+The answer is guaranteed to be within the range from 1 to 3999.
+
+Example
+Example 1:
+
+Input: "IV"
+Output: 4
+Example 2:
+
+Input: "XCIX"
+Output: 99
+
+T:o(N), S:o(1)
+
+int romanToInt(string &nums) {
+        // write your code here
+        int arr[26];
+        int sum = 0;
+        arr[(int)('I' - 'A')] = 1;
+        arr[(int)('V' - 'A')] = 5;
+        arr[(int)('X' - 'A')] = 10;
+        arr[(int)('L' - 'A')] = 50;
+        arr[(int)('C' - 'A')] = 100;
+        arr[(int)('D' - 'A')] = 500;
+        arr[(int)('M' - 'A')] = 1000;
+    
+        int i = 0;
+        for (i = 0; i < nums.size() - 1; i++) {
+            if ((arr[nums[i] - 'A'] >= arr[nums[i+1] - 'A'])) {
+                sum += arr[nums[i] - 'A'];
+            } else {
+                sum -= arr[nums[i] - 'A'];  
+            }
+        }
+
+        // Adding the value for last char of string
+        sum += arr[nums[i] - 'A'];
+
+        return sum;
+
+    }
