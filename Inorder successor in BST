@@ -1,0 +1,47 @@
+Given a binary search tree (See Definition) and a node in it, find the in-order successor of that node in the BST.
+
+If the given node has no in-order successor in the tree, return null.
+
+Example
+Example 1:
+
+Input: {1,#,2}, node with value 1
+Output: 2
+Explanation:
+  1
+   \
+    2
+Example 2:
+
+Input: {2,1,3}, node with value 1
+Output: 2
+Explanation: 
+    2
+   / \
+  1   3
+  
+  T:o(h) S:o(h) h is height of tree
+  
+  TreeNode *res = NULL;
+public:
+    void solve(TreeNode *root, TreeNode *p) {
+        if (root == NULL) {
+            return;
+        }
+
+        // if root->val is > p->val, look in left sub tree, else look in right sub tree
+        if (root->val > p->val) {
+            res = root;
+            solve(root->left, p);
+        } else {
+            solve(root->right, p);
+        }
+
+        return;
+    }
+    
+    TreeNode * inorderSuccessor(TreeNode * root, TreeNode * p) {
+        // write your code here
+        solve(root,p);
+        return res;
+    }
