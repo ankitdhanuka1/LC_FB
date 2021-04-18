@@ -1,0 +1,38 @@
+Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.
+
+ 
+
+Example 1:
+
+Input: nums = [4,3,2,7,8,2,3,1]
+Output: [2,3]
+Example 2:
+
+Input: nums = [1,1,2]
+Output: [1]
+
+
+T:o(N), S: o(1)
+
+ vector<int> findDuplicates(vector<int>& nums) {
+        for (int i = 0; i < nums.size(); i++) {
+            // find index as the number at ith idx of nums, ie nums[i] % nums.size()
+            int index = nums[i] % nums.size();
+            //add nums.size() to the number at the index.
+            nums[index] += nums.size();
+        }
+        
+        vector<int> res;
+        for (int i =0; i < nums.size(); i++) {
+            // if the number repeats 2 times, then number at that index will be greater than 2 times the nums.size(), as we would have added nums.size() twice to the number at that index.
+            if (nums[i] > (2 * nums.size())) {
+                if (i == 0)
+                    res.push_back(nums.size());
+                else
+                    res.push_back(i);
+            }
+        }
+        
+        return res;
+     }
+};
