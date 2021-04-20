@@ -1,0 +1,62 @@
+Given a binary tree, return the vertical order traversal of its nodes' values. (ie, from top to bottom, column by column).
+
+If two nodes are in the same row and column, the order should be from left to right.
+
+Example
+Example1
+
+Inpurt:  {3,9,20,#,#,15,7}
+Output: [[9],[3,15],[20],[7]]
+Explanation:
+   3
+  /\
+ /  \
+ 9  20
+    /\
+   /  \
+  15   7
+  
+T:o(nlog(n)), S: o(n)
+
+ map<int, vector<int>> m;
+
+public:
+    /**
+     * @param root: the root of tree
+     * @return: the vertical order traversal
+     */
+    vector<vector<int>> verticalOrder(TreeNode * root) {
+        // write your code here
+        vector<vector<int>> res;
+        if (!root) {
+            return res;
+        }
+
+        queue<pair<TreeNode *, int>> q;
+        q.push({root,0});
+        
+        // do level order traversal, and calculate horizontal distance from root
+        //hd for left child is -1, hd for right child is +1.
+        //nodes at same hd should be grouped together.
+        while (!q.empty()) {
+            TreeNode *temp = q.front().first;
+            int hd = q.front().second;
+            q.pop();
+            m[hd].push_back(temp->val);
+            if (temp->left) {
+                q.push({temp->left, hd - 1});
+            }
+
+            if (temp->right) {
+                q.push({temp->right, hd + 1});
+            }
+
+        }
+
+        for (auto itr = m.begin(); itr != m.end(); itr++) {
+            vector<int> temp = itr->second;
+            res.push_back(temp);
+        }
+
+        return res;
+    }
