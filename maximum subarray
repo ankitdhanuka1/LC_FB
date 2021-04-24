@@ -1,0 +1,29 @@
+Given an array of integers, find a contiguous subarray which has the largest sum.
+Example 1:
+
+Input:
+
+nums = [−2,2,−3,4,−1,2,1,−5,3]
+Output:
+
+6
+Explanation:
+
+the contiguous subarray [4,−1,2,1] has the largest sum = 6.
+
+T: o(N), S: o(1)
+
+  int maxSubArray(vector<int> &nums) {
+        // write your code here
+        int curmax = nums[0];
+        int maxsum = nums[0];
+
+        for (int i = 1; i < nums.size(); i++) {
+            // find the max of previous window sum and nums[i].
+            curmax = max(curmax + nums[i], nums[i]);
+            //update maxsum
+            maxsum = max(maxsum, curmax);
+        }
+
+        return maxsum;
+    }
