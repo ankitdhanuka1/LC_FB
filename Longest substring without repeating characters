@@ -1,0 +1,33 @@
+Given a string, find the length of the longest substring without repeating characters.
+
+Example
+Example 1:
+
+Input: "abcabcbb"
+Output: 3
+Explanation: The longest substring is "abc".
+
+T: o(N), S: o(N)
+
+int lengthOfLongestSubstring(string &s) {
+        // write your code here
+        map<char, int> map;
+        int start = 0;
+        int end = 0;
+        int maxlen = 0;
+        while ((start < s.size()) && (end < s.size())) {
+            if (map.find(s[end]) != map.end()) {
+                // once the repeated char is found, check if last occurence is part of window or not
+                start = max(map[s[end]], start);
+            } 
+            
+            //find maxlen of window size
+            maxlen = max(maxlen, end - start + 1);
+            //push index + 1 of end char of window to map.
+            map[s[end]] =  end + 1;
+            end++;
+            
+        }
+
+        return maxlen;
+    }
