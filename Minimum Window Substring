@@ -1,0 +1,61 @@
+Given two strings s and t, return the minimum window in s which will contain all the characters in t. If there is no such window in s that covers all characters in t, return the empty string "".
+
+Note that If there is such a window, it is guaranteed that there will always be only one unique minimum window in s.
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+
+T: o(N), S: o(N)
+
+string minWindow(string s, string t) {
+        unordered_map<char, int> map;
+        if (s.size() < t.size()) {
+            return "";
+        }
+        
+        for (int i = 0; i <t.size(); i++) {
+            map[t[i]]++;
+        }
+        
+        int start = 0;
+        int end = 0;
+        int counter = t.size();
+        int minlength = INT_MAX;
+        int minstart = 0;
+        
+        while(end < s.size()) {
+            if (map[s[end]] > 0) { // char of t found in s
+                counter--;
+            }
+            
+            map[s[end]]--;
+            end++;
+            
+            while (counter == 0) { //found valid window
+                if ((end - start) < minlength) {
+                    minlength = end - start;
+                    minstart = start;
+                }
+                
+                map[s[start]]++;
+                
+                if (map[s[start]] > 0) {
+                    counter++;
+                }
+                
+                start++;
+                
+                
+            }
+                        
+            
+        }
+                        
+        if (minlength == INT_MAX) {
+            return "";
+        } else {
+            return (s.substr(minstart, minlength));
+        }
+    } 
