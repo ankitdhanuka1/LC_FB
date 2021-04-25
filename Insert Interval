@@ -1,0 +1,48 @@
+Given a non-overlapping interval list which is sorted by start point.
+
+Insert a new interval into it, make sure the list is still in order and non-overlapping (merge intervals if necessary).
+
+Example
+Example 1:
+
+Input:
+
+interval list = [(1,2), (5,9)]
+new interval = (2, 5)
+Output:
+
+[(1,9)]
+Explanation:
+
+The interval after insertion overlaps and needs to be merged.
+
+T: o(N), S:o(1)
+
+vector<Interval> insert(vector<Interval> &ints, Interval newInt) {
+       vector<Interval> res;
+       int i = 0;
+       
+       // Insert all interval before newInt to be merge in res
+       while ((i < ints.size()) && (ints[i].end < newInt.start)) {
+           res.push_back(ints[i]);
+           i++;
+       }
+
+       //merge all overlapping intervals
+       while ((i < ints.size()) && (ints[i].start <= newInt.end)) {
+           newInt.start = min(newInt.start, ints[i].start);
+           newInt.end = max(newInt.end, ints[i].end);
+           i++;
+       }
+
+       // insert overlapping interval
+       res.push_back(newInt);
+
+       // Insert all interval after overlapping interval
+       while (i < ints.size()) {
+           res.push_back(ints[i]);
+           i++;
+       }
+
+       return res;
+    } 
