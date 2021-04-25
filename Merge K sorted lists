@@ -1,0 +1,61 @@
+Merge k sorted linked lists and return it as one sorted list.
+
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+Explanation: The linked-lists are:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+merging them into one sorted list:
+1->1->2->3->4->4->5->6
+
+T: o(Nlog k), S: o(k)
+N is the number of nodes in resultant link list, k is the number of link lists given.
+
+ListNode *curnode = NULL;
+     void insert_list(ListNode **head, ListNode *node) {
+        if (*head == NULL) {
+            *head = node;
+            curnode = *head;
+            return;
+        }
+
+        curnode->next = node;
+        curnode = node;
+
+        return;
+    }
+    
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode *res = NULL;
+        priority_queue<pair<int, ListNode *>, vector<pair<int, ListNode *>>, 
+                        greater<pair<int, ListNode *>>> pq;
+
+        for (int i = 0; i < lists.size(); i++) {
+            // insert head of all k lists in pq
+            if (lists[i]) {
+                pq.push({lists[i]->val, lists[i]});
+            }
+        }
+
+        while (!pq.empty()) {
+            pair<int, ListNode *> tmp = pq.top();
+            ListNode *tmpnode = tmp.second;
+            
+            //get the next element of the popped out list and push it in pq;
+            ListNode *next = tmpnode->next;
+            tmpnode->next = NULL;
+            pq.pop();
+            
+            //insert pooped out listnode to resultant list.
+            insert_list (&res, tmpnode);
+            if (next) {
+                pq.push({next->val, next});
+            }
+        }
+
+        return res;
+    
+    }
