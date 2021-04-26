@@ -1,0 +1,51 @@
+Suppose a sorted array in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+Find the minimum element.
+
+You can assume no duplicate exists in the array.
+
+Example
+Example 1:
+
+Input：[4, 5, 6, 7, 0, 1, 2]
+Output：0
+Explanation：
+The minimum value in an array is 0.
+
+T:o(logn), S:o(1)
+
+int findMin(vector<int> &A) {
+        // write your code here
+        int low = 0;
+        int high = A.size() - 2;
+        int mid;
+
+        if (A.size() == 1) {
+            return A[0];
+        }
+
+        if (A[A.size() - 1] < A[A.size() - 2]) {
+            return A[A.size() - 1];
+        }
+        
+        while (low <= high) {
+            mid = low + (high - low)/2;
+            if (A[mid] > A[mid + 1]) {
+                return A[mid+1];
+            }
+
+            if (A[mid] < A[mid -1]) {
+                return A[mid];
+            }
+
+            if (A[low] < A[mid]) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return A[0];
+    }
