@@ -1,0 +1,54 @@
+Given a node from a cyclic linked list which has been sorted, write a function to insert a value into the list such that it remains a cyclic sorted list. The given node can be any single node in the list. Return the inserted new node.
+Example
+Example 1:
+
+Input:
+3->5->1
+4
+Output:
+5->1->3->4
+
+ListNode * insert(ListNode * node, int x) {
+        // write your code here
+        ListNode *temp = new (ListNode);
+        temp->val = x;
+        temp->next = NULL;
+
+        if (!node) {
+            return temp;
+        }
+
+        ListNode *cur = node;
+
+        // Find the head node from where sorted list start and tail node where sorted list ends.
+        while ((cur->val <= cur->next->val) && (cur->next != node)) {
+            cur = cur->next;
+        }
+
+        ListNode *head = cur->next;
+        ListNode *tail = cur;
+
+        //if new value lies between tail and head value, add it there.
+        if ((temp->val >= tail->val) || (temp->val <= head->val)) {
+            temp->next = head;
+            tail->next = temp;
+            return temp;
+        }
+
+        cur = head;
+        
+        //find suitable value for new value in sorted list from head to tail and add it there.
+        while (cur->next != head) {
+            if ((cur->val <= temp->val) && (temp->val < cur->next->val)) {
+                ListNode *next = cur->next;
+                cur->next = temp;
+                temp->next = next;
+                return temp;
+            }
+
+            cur = cur->next; 
+        }
+
+        
+        return temp;
+    }
