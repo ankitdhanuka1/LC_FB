@@ -1,0 +1,29 @@
+Implement int sqrt(int x).
+
+Compute and return the square root of x.
+
+T: o(logx), S:o(1)
+
+    int sqrt(int x) {
+        // write your code here
+        if (x == 0) {
+            return 0;
+        }
+        int start = 1;
+        int end = x/2;
+        int mid = 1;
+        while (start <= end) {
+            int mid = start + (end - start)/2;
+            if ((mid  <= (x/mid)) && ((mid + 1) > (x/(mid+1)))) {
+                return mid;
+            }
+
+            if (mid < x/mid) {
+                start = mid+1;
+            } else {
+                end = mid -1;
+            }
+        }
+
+        return mid;
+    }
