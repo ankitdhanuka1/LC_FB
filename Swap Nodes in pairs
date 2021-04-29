@@ -1,0 +1,53 @@
+Given a linked list, swap every two adjacent nodes and return its head.
+
+Example
+Example 1:
+
+Input: 1->2->3->4->null
+Output: 2->1->4->3->null
+
+T: O(N), S: o(1)
+
+  ListNode * swapPairs(ListNode * head) {
+       if (!head) {
+            return NULL;
+        }
+        
+        if (!head->next) {
+            return head;
+        }
+        
+        ListNode *cur = head;
+        ListNode *next = head->next;
+        ListNode *prev = NULL;
+        
+        while ((cur != NULL) && (next != NULL)) {
+            //cout << a->val << " "<<b->val<<endl;
+            //current node should point to next of next (1-> 3)
+            cur->next = next->next;
+            
+            // next node should point to cur (2 -> 1)
+            next->next = cur;
+            
+            if (cur == head) {
+                head = next;
+            }
+            
+            if (prev) {
+                prev->next = next;
+            }
+            // 2->1->3->4->NULL
+            // 2->1->4->3->NULL
+            //arrange new places for prev, cur and next pointers, prev = 1, cur = 3, next = 4 
+            prev = cur;
+            cur  = cur->next;
+            if (cur) {
+                next = cur->next;
+            }
+            
+           
+        }
+        
+        return head;
+       
+    }
