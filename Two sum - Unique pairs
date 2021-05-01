@@ -1,0 +1,36 @@
+Given an array of integers, find how many unique pairs in the array such that their sum is equal to a specific target number. Please return the number of pairs.
+
+Example
+Example 1:
+
+Input: nums = [1,1,2,45,46,46], target = 47 
+Output: 2
+Explanation:
+
+1 + 46 = 47
+2 + 45 = 47
+
+T: o(N), S: o(N)
+
+   int twoSum6(vector<int> &nums, int target) {
+        unordered_map<int, bool> map;  // map to store value and whether its pair is found or not
+        int cnt = 0;
+
+        for (int i = 0; i < nums.size(); i++) {
+            // if target - nums[i] is found in map, check if its pair is already found or not.
+            // if not found, increment cnt, and mark both nums[i] and (target - nums[i]) as found in map;
+            // if target - nums[i] is not found in map, add nums[i] to map marked as false as its pair is not found.
+            
+            if(map.find(target - nums[i]) != map.end()) {
+                if (map[target - nums[i]] == false) {
+                    cnt++;
+                    map[target - nums[i]] = true;
+                    map[nums[i]] = true;
+                }               
+            } else {
+                map[nums[i]] = false;
+            }
+        }
+
+        return cnt;
+    }
