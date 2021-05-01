@@ -1,0 +1,96 @@
+Given a binary search tree and a number n, find two numbers in the tree that sums up to n.
+
+Without any extra space.
+
+Example
+Example1
+
+Input: 
+{4,2,5,1,3}
+3
+Output: [1,2] (or [2,1])
+Explanation:
+binary search tree:
+    4
+   / \
+  2   5
+ / \
+1   3
+
+T:o(logn), S:o(1)
+
+ vector<int> twoSum(TreeNode * root, int target) {
+        // write your code here
+        TreeNode *l = root;
+        TreeNode *r = root;
+        TreeNode *temp = root;
+        vector<int> res;
+        
+        //find the lowest number node, it will be the leftmose node
+        while (temp) {
+            if (temp->left)
+                l = temp->left;
+            temp = temp->left;
+        }
+
+        //find the highest number node, it will be right most node
+        temp = root;
+        while (temp) {
+            if (temp->right)
+                r = temp->right;
+
+            temp = temp->right;
+        }
+
+        //Apply binary search in BST to find correct values of l and r.
+        while (l != r) {
+            int sum = l->val + r->val;
+            if (sum == target) {
+                return {l->val, r->val};
+            }
+
+            if (sum > target) {
+                r = find_pre(root, r);
+            } else {
+                l = find_succ(root, l);
+            }
+        }
+
+        return res;
+    }
+
+    TreeNode *find_succ(TreeNode *root, TreeNode *l) {
+        if (!root) {
+            return NULL;
+        }
+
+        //if root value becomes less than or equal to l value, we check in right subtree
+        if (root->val <= l->val) {
+            return find_succ(root->right, l);
+        } else {
+            //Till we get value greater than l value, we check in left subtree
+            TreeNode *leftnode = find_succ(root->left, l);
+            if (leftnode) {
+                return leftnode;
+            } else {
+                return root;
+            }
+        }
+    }
+
+    TreeNode *find_pre(TreeNode *root, TreeNode *r) {
+        if (!root) {
+            return NULL;
+        }
+
+        if (root->val >= r->val) {
+            return find_pre(root->left, r);
+        } else {
+            TreeNode *rightnode = find_pre(root->right, r);
+            if (rightnode) {
+                return rightnode;
+            } else {
+                return root;
+            }
+        }
+    }
