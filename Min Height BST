@@ -1,0 +1,21 @@
+Construct a BST from a sorted array of distict integers with minimum height.
+
+T:o(N), S: o(N)
+
+BST *solve(vector<int> array, int start, int end) {
+	if (start > end) {
+		return NULL;
+	}
+	
+	int mid = start + (end - start) / 2;
+	BST *root = new BST(array[mid]);
+	root->left = solve(array, start, mid - 1);
+	root->right = solve(array, mid + 1, end);
+	
+	return root;
+}
+
+BST *minHeightBst(vector<int> array) {
+  // Write your code here.
+  return solve(array, 0, array.size() - 1);
+}
