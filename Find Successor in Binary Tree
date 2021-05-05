@@ -1,0 +1,33 @@
+Find Inroder Successor of Binary Tree.
+
+BinaryTree *res = NULL;
+bool flag = false;
+void solve(BinaryTree *tree, BinaryTree *node) {
+	if (tree == NULL) {
+		return;
+	}
+	
+  //Inroder Traversal
+ 
+	solve(tree->left, node);
+  
+	if (flag == true) {
+    //once flag is marked as true, store the root node in res and mark flag as false.
+		res = tree;
+		flag = false;
+	}
+	
+	if (tree->value == node->value) {
+    // Mark the flag true, so that we know that next value we need to store in res.
+		flag = true;
+	}
+	
+	solve(tree->right, node);
+}
+
+BinaryTree *findSuccessor(BinaryTree *tree, BinaryTree *node) {
+	res = NULL;
+	solve(tree, node);
+	
+	return res;
+}
