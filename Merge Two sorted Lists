@@ -1,0 +1,52 @@
+Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+T: o(n+m), S:o(1)
+
+LinkedList *mergeLinkedLists(LinkedList *headOne, LinkedList *headTwo) {
+  // Write your code here.
+	if ((!headOne && !headTwo)) {
+		return NULL;
+	}
+	if (!headOne) {
+		return headTwo;
+	}
+	
+	if (!headTwo) {
+		return headOne;
+	}
+	
+	LinkedList *temp1 = headOne;
+	LinkedList *temp2 = headTwo;
+	LinkedList *head = NULL;
+	if (temp1->value <= temp2->value) {
+		head = temp1;
+	} else {
+		head = temp2;
+	}
+	
+  //Inserting in first list
+	LinkedList *prev = NULL;
+	while ((temp1 != NULL) && (temp2 != NULL)) {
+		if (temp1->value <= temp2->value) {
+      // no change required, just move to the next node in first list and mark prev as current node.
+			prev = temp1;
+			temp1 = temp1->next;
+		} else {
+      //List2 element is smaller than list1 element, so insert it between prev and temp1, and move prev to temp2 and temp2 to its next element.
+			if (prev) {
+				prev->next = temp2;
+			}
+			prev = temp2;
+			temp2 = temp2->next;
+			prev->next = temp1;
+		}
+	}
+	
+  //remaining elements of list2 can be appended to end of list1 ie is next to prev pointer.
+	if (temp2) {
+		prev->next = temp2;
+	}
+		
+	
+  return head;
+}
