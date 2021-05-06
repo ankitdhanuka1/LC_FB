@@ -1,0 +1,18 @@
+Given a non empty array of positive inegers representing the amount of time it take the query to execute.
+A query's waiting time is defines as amount of time it waits before execution.
+Write a fn. that returns minimum waiting time for all the queries
+
+T:o(nlogn), s:o(1)
+
+int minimumWaitingTime(vector<int> queries) {
+  // Write your code here.
+  // sort query so that minimum time query is executed first, so that remaining queries have to wait lesser.
+	sort(queries.begin(), queries.end());
+	int total = 0;
+	for (int i = 0; i < queries.size(); i++) {
+    // for each query, the remiang query has to wait till the current query is executed, so multiply remaining queries with execution time of current query.
+		int qleft = queries.size() - i - 1;
+		total += queries[i] * qleft;
+	}
+  return total;
+}
