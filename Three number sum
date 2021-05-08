@@ -1,0 +1,33 @@
+Find all triplets in an array whose sum equal to target.
+
+T: o(N2), S: o(N)
+
+vector<vector<int>> threeNumberSum(vector<int> array, int targetSum) {
+  // Write your code here.
+	sort(array.begin(), array.end());
+	int a = 0;
+	int c = array.size() - 1;
+	vector<vector<int>> res;
+	
+	while (a <= array.size() - 2) {
+    //compare next number of 'a' and last number.
+		int b = a + 1;
+		c = array.size() - 1;
+		while (b < c) {
+			if ((array[a] + array[b] + array[c]) == targetSum) {
+				vector<int> temp = {array[a], array[b], array[c]};
+				res.push_back(temp);
+				b++;
+				c--;
+			} else if ((array[a] + array[b] + array[c]) > targetSum) {
+				c--;
+			} else {
+				b++;
+			}
+		}
+		
+		a++;
+			
+	}
+  return res;
+}
