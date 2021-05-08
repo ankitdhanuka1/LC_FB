@@ -1,0 +1,32 @@
+Given two array of integers, find a pair of integers one from each array, whose absolute difference is closest to 0.
+
+T: o(nlogn + mlogm), S: o(1)
+
+vector<int> smallestDifference(vector<int> ArrayOne, vector<int> ArrayTwo) {
+  // Write your code here.
+	sort(ArrayOne.begin(), ArrayOne.end());
+	sort(ArrayTwo.begin(), ArrayTwo.end());
+	int a = 0;
+	int b = 0;
+	int diff = INT_MAX;
+	vector<int> res;
+	res.resize(2);
+	
+	while ((a < ArrayOne.size()) && (b < ArrayTwo.size())) {
+    //Find abs diff of two numbers
+		int c = abs(ArrayOne[a] - ArrayTwo[b]);
+    //if it is lesser than diff, update diff
+		if (c < diff) {
+			diff = c;
+			res = {ArrayOne[a], ArrayTwo[b] };
+		}
+		
+    //increment the index of lower number as difference will be minimized by increasing the lower number.
+		if ((ArrayOne[a] < ArrayTwo[b])) {
+			a++;
+		} else {
+			b++;
+		}
+	}
+  return res;
+}
