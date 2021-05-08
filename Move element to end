@@ -1,0 +1,27 @@
+Given an array of integers and an integer 'K'. Move all instances of K in the array to the end of the array.
+
+T: o(N), S:o(1)
+
+vector<int> moveElementToEnd(vector<int> array, int toMove) {
+  //vector<int> res;
+	int start = 0;
+	int end = array.size() - 1;
+	while (start < end) {
+		if (array[start] == toMove) {
+      //Find first index at the end of array which is not equal to toMove, and swap that element with the start index element.
+			while ((end > start) && (array[end] == toMove)) {
+				end--;
+			}
+			
+			swap(array[start], array[end]);
+      //start and end are at correct place now , so increment start and dec end to compare next element.
+			start++;
+			end--;
+		} else {
+      // not equal to tomove, so just increment start index.
+			start++;
+		}
+	}
+	
+  return array;
+}
