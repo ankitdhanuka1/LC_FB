@@ -1,0 +1,46 @@
+Given an array, return the starting and ending indices of the smallest subarray in the input array that need to be sorted so that entire array will be sorted.
+
+T:o(N), S:o(1)
+
+vector<int> subarraySort(vector<int> array) {
+  // Write your code here.
+	int left = 0;
+	int right = array.size() - 1;
+	int minunsort = INT_MAX;
+	int maxunsort = INT_MIN;
+	
+	/* Find out elements that are unsorted in array, and find the min and max in unsorted array */
+	for (int i = 0; i < array.size(); i++) {
+		if (i == 0) {
+			if (array[i] > array[i+1]) {
+				maxunsort = max(maxunsort, array[i]);
+			}
+		}
+		
+		else if (i == array.size() - 1) {
+			if (array[i] < array[i-1]) {
+				minunsort = min(array[i], minunsort);
+			}
+		}
+		else if ((array[i] < array[i-1]) || (array[i] > array[i+1])) {
+			minunsort = min(array[i], minunsort);
+			maxunsort = max(array[i], maxunsort);
+		}
+	}
+	
+	//condition for all sorted elements in array
+	if ((maxunsort == INT_MIN) && (minunsort == INT_MAX)) {
+		return {-1, -1};
+	}
+	
+	//finding correct index for min unsorted element
+	while (array[left] <= minunsort) {
+		left++;
+	}
+	
+	//finding correct index for max unsorted element
+	while (array[right] > maxunsort) {
+		right--;
+	}
+  return {left, right};
+}
