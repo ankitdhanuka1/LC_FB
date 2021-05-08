@@ -14,25 +14,18 @@ Output: [1]
 
 T:o(N), S: o(1)
 
- vector<int> findDuplicates(vector<int>& nums) {
-        for (int i = 0; i < nums.size(); i++) {
-            // find index as the number at ith idx of nums, ie nums[i] % nums.size()
-            int index = nums[i] % nums.size();
-            //add nums.size() to the number at the index.
-            nums[index] += nums.size();
-        }
-        
+   vector<int> findDuplicates(vector<int>& nums) {
         vector<int> res;
-        for (int i =0; i < nums.size(); i++) {
-            // if the number repeats 2 times, then number at that index will be greater than 2 times the nums.size(), as we would have added nums.size() twice to the number at that index.
-            if (nums[i] > (2 * nums.size())) {
-                if (i == 0)
-                    res.push_back(nums.size());
-                else
-                    res.push_back(i);
+        for (int i = 0; i < nums.size(); i++) {
+            //Find the index for nums[i] and multiply with -1.
+            //Next time is same number comes , then at its index number will be negative, and this will tell that current number is duplicate.
+            int idx = abs(nums[i]) - 1;
+            if (nums[idx] < 0) {
+                res.push_back(abs(nums[i]));
+            } else {
+                nums[idx] *= -1;
             }
         }
         
         return res;
-     }
-};
+    }
