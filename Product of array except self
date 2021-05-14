@@ -39,3 +39,25 @@ vector<int> productExceptSelf(vector<int> &nums) {
 
         return res;
     }
+    
+    //using only res array
+    vector<int> arrayOfProducts(vector<int> array) {
+	vector<int> res = array;
+
+	int prod = 1;
+	for (int i = 0; i < array.size(); i++) {
+        //put the product up to previous element in res array like res[3] = arra[0]*array[1]*array[2], res[0] will be 1
+	        res[i] = prod;	
+		prod *= array[i];
+	}
+	
+	prod = 1;
+	for (int i = array.size() - 1; i >= 0; i--) {
+        //multiply res with the products of next elements in the array. res[3] = res[3] * (Array[4] * array[5]), res[5] will be mulplied by 1 as it contains product of first 4.
+		res[i] *= prod;
+		prod *= array[i];
+		
+	}
+	
+        return res;
+}
