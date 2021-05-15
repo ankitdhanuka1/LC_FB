@@ -1,0 +1,50 @@
+Reverse the even elements in the linked list.
+Example
+Input:
+N = 6
+list = [1, 2, 8, 9, 12, 16]
+Output:
+[1, 8, 2, 9, 16, 12]
+
+T:o(N), S:o(1)
+
+Node* rev(Node *head) {
+  Node *temp = head;
+  Node *prev = NULL;
+  
+  //reverse even elements
+  while (temp && (temp->data % 2 == 0)) {
+    Node *next = temp->next;
+    temp->next = prev;
+    prev = temp;
+    temp = next;
+  }
+  
+  //head will now be last element, so its next should now point to next element which is stored in temp.
+  //prev store the first element in reversed list.
+  head->next = temp;
+  return prev;
+}
+
+Node* reverse(Node *head) {
+  // Write your code here
+  Node *temp = head;
+  Node *prev = NULL;
+  
+  while (temp != NULL)  {
+    if (temp->data % 2 == 0) {
+      if (prev) {
+        // prev stores odd element, so its next now should point to reversed even elements
+        prev->next = rev(temp);
+      } else {
+        // first element itself is even, so reversed list should point to head.
+        head = rev(temp);
+      }
+    }
+    
+    prev = temp;
+    temp = temp->next;
+  }
+  
+  return head;
+}
