@@ -1,0 +1,81 @@
+Given the root and two nodes in a Binary Tree. Find the lowest common ancestor(LCA) of the two nodes.
+The nearest common ancestor of two nodes refers to the nearest common node among all the parent nodes of two nodes (including the two nodes).
+Return null if LCA does not exist.
+
+node A or node B may not exist in tree.
+Each node has a different value.
+
+T:o(N), S:o(N)
+
+TreeNode * lowestCommonAncestor3(TreeNode * root, TreeNode * A, TreeNode * B) {
+        // if LCA is not equal to A and B, return it as res.
+        // if LCA is A, check if B exist in subtree of A or not, if yes, return A, else return NULL
+        // if LCA is B, check if A exist in subtree of B or not, if yes, return B, else return NULL
+        
+        TreeNode *res = solve(root, A, B);
+        if ((res != A) && (res != B)) {
+            return res;
+        }
+
+        if (res == A) {
+            if (find(A, B)) {
+                return res;
+            }
+        } else {
+            if (find(B, A)) {
+                return res;
+            }
+        }
+
+        return NULL;
+    }
+
+    //Find LCA
+    TreeNode *solve(TreeNode *root, TreeNode *A, TreeNode *B) {
+        if (root == NULL) {
+            return NULL;
+        }
+
+        if ((root->val == A->val) || (root->val == B->val)) {
+            return root;
+        }
+
+        TreeNode *lefttree = solve(root->left, A, B);
+        TreeNode *righttree = solve(root->right, A, B);
+        if (lefttree && righttree) {
+            return root;
+        }
+
+        if (lefttree) {
+            return lefttree;
+        }
+
+        return righttree;
+    }
+
+    bool find(TreeNode *root, TreeNode *node) {
+        if (root == NULL) {
+            return false;
+        }
+
+        queue<TreeNode *> q;
+        q.push(root);
+
+        while (q.size() != 0) {
+            TreeNode *temp = q.front();
+            q.pop();
+            if (temp->val == node->val) {
+                return true;
+            }
+
+            if (temp->left) {
+                q.push(temp->left);
+            }
+
+            if (temp->right) {
+                q.push(temp->right);
+            }
+        }
+
+        return false;
+    }
