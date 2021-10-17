@@ -7,30 +7,31 @@ Hence return [3, 14.5, 11].
 
 T:o(n), S: o(n)    
     
-    vector<double> averageOfLevels(TreeNode* root) {
-        queue<TreeNode *> q; // main q to store nodes of each level
+     vector<double> averageOfLevels(TreeNode* root) {
+        queue<TreeNode *> q;
         q.push(root);
         vector<double> res;
         
         while (q.size() != 0) {
             double sum = 0;
             int cnt = 0;
-            queue<TreeNode *> tempq; // temp q to add nodes of next level.
-            while (q.size() != 0) {
+            int size = q.size();  // this will give size of current level of tree
+            while (size != 0) {
                 TreeNode *node = q.front();
                 q.pop();
                 sum += node->val;
                 cnt++;
                 if (node->left) {
-                    tempq.push(node->left);
+                    q.push(node->left);
                 }
                 
                 if (node->right) {
-                    tempq.push(node->right);
+                    q.push(node->right);
                 }
+                
+                size--;
             }
             
-            q = tempq;  // load next level q to current q
             double avg = (double)sum / (double)cnt;
             res.push_back(avg);
             
